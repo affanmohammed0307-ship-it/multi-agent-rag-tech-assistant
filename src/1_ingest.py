@@ -1,35 +1,42 @@
-from langchain_community.document_loaders import PyPDFLoader
+import os
+from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceBgeEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 
-# 1. Load the Document
-pdf_path = "manual.pdf"
-print(f"Loading {pdf_path}...")
-loader = PyPDFLoader(pdf_path)
-documents = loader.load()
+# 1. Path Setup
+DATA_PATH = "data/"
+DB_PATH = "chroma_db"
 
-# 2. Split the Document into Chunks
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,
-    chunk_overlap=200,
-    length_function=len
-)
-chunks = text_splitter.split_documents(documents)
-print(f"Split document into {len(chunks)} chunks.")
+def ingest_docs():
+    # STEP 1: Load all PDFs from the data/ folder
+    print(f"📂 Loading PDFs from {DATA_PATH}...")
+    loader = PyPDFDirectoryLoader(DATA_PATH)
+    raw_documents = loader.load()
+    print(f"✅ Loaded {len(raw_documents)} pages.")
 
-# 3. Load the completely free, local Embedding Model
-print("Downloading/Loading Embedding Model... (This takes a minute the very first time)")
-embeddings = HuggingFaceBgeEmbeddings(model_name="all-MiniLM-L6-v2")
+    # STEP 2: Split text into chunks 
+    # (Important for LLMs to handle long documents)
+    print("✂️ Splitting documents into chunks...")
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000, 
+        chunk_overlap=100
+    )
+    docs = text_splitter.split_documents(raw_documents)
+    print(f"✅ Created {len(docs)} text chunks.")
 
-# 4. Create and Save the Vector Database
-print("Storing chunks in the Vector Database... (This might take 1-3 minutes)")
-persist_directory = "chroma_db"
+    # STEP 3: Create Embeddings
+    print("🧠 Generating embeddings (HuggingFace)...")
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
-vector_db = Chroma.from_documents(
-    documents=chunks,
-    embedding=embeddings,
-    persist_directory=persist_directory
-)
+    # STEP 4: Store in ChromaDB
+    print(f"💾 Saving to {DB_PATH}...")
+    vector_db = Chroma.from_documents(
+        documents=docs,
+        embedding=embeddings,
+        persist_directory=DB_PATH
+    )
+    print("🏁 Ingestion Complete! Your Automotive AI is ready.")
 
-print(f"Success! Database saved locally to the '{persist_directory}' folder.")
+if __name__ == "__main__":
+    ingest_docs()
