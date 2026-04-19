@@ -56,8 +56,26 @@ def run_enhanced_agent(question):
 
     else:
         return llm.invoke(question).content
-
 if __name__ == "__main__":
-    query = "What are the benefits of Zonal Architecture?"
-    print(f"\n--- Testing Agent with: {query} ---")
-    print(run_enhanced_agent(query))
+    print("\n" + "="*50)
+    print("🚀 AUTOMOTIVE E/E & EMC INTELLIGENCE AGENT")
+    print("Knowledge Base: 837 Pages (Springer, NXP, Vector, TI, etc.)")
+    print("Type 'exit' or 'quit' to stop.")
+    print("="*50)
+
+    while True:
+        user_input = input("\n👤 You: ")
+        
+        if user_input.lower() in ['exit', 'quit']:
+            print("👋 Closing Agent. Good luck with your studies!")
+            break
+            
+        if not user_input.strip():
+            continue
+
+        try:
+            answer = run_enhanced_agent(user_input)
+            print(f"\n🤖 Agent Result:\n{answer}")
+            print("-" * 50)
+        except Exception as e:
+            print(f"❌ An error occurred: {e}")
