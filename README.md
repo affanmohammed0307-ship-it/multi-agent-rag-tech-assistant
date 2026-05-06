@@ -38,5 +38,5 @@ python 1_ingest.py
 # Launch the Engineering Dashboard
 streamlit run 6_app.py
 🔗 Live Demo
-CLICK HERE TO ACCESS THE LIVE ENGINEERING ASSISTANT
+[CLICK HERE TO ACCESS THE LIVE ENGINEERING ASSISTANT](https://multi-agent-rag-tech-assistant-jgmotci2q4wvgicfwdhzul.streamlit.app/)
 Developed by Mohammed Affan M | M.Sc. Mechatronics and Cyber-Physical Systems
