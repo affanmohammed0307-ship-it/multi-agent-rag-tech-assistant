@@ -103,8 +103,14 @@ if user_query:
             st.success(f"📊 Result: {response}")
         
         else:
-            response = llm.invoke(user_query).content
-            st.write(response)
+            # No ungrounded answers: if it isn't in the indexed documents, say so.
+            # An unsourced answer that looks identical to a sourced one is worse
+            # than no answer for a standards-based tool.
+            st.warning(
+                "That question is outside the indexed knowledge base.\n\n"
+                "This assistant only answers from the loaded documents: "
+                "ECSS space standards, automotive E/E architecture, and EMC design guides."
+            )
 
 # --- 6. FOOTER ---
 st.markdown("---")
