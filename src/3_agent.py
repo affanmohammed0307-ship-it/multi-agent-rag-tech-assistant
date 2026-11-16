@@ -23,7 +23,7 @@ vector_db = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
 retriever = vector_db.as_retriever(search_kwargs={"k": 4})
 
 # 3. Initialize LLM (Llama 3.1 via Groq)
-llm = ChatGroq(model_name="llama-3.1-8b-instant", groq_api_key=api_key)
+llm = ChatGroq(model_name="openai/gpt-oss-20b", groq_api_key=api_key)
 
 # 4. Multi-Domain Router
 router_prompt = ChatPromptTemplate.from_messages([

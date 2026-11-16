@@ -103,7 +103,7 @@ vector_db = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
 K = 4                       # how many chunks we retrieve per question
 PAGE_TOLERANCE = 1          # allow the answer to sit one page either side
 
-llm = ChatGroq(model_name="llama-3.1-8b-instant", groq_api_key=api_key)
+llm = ChatGroq(model_name="openai/gpt-oss-20b", groq_api_key=api_key)
 
 ANSWER_PROMPT = (
     "You are a systems engineering assistant. Answer using ONLY the context below.\n"

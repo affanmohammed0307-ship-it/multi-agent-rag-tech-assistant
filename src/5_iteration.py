@@ -11,7 +11,7 @@ embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 vector_db = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
 # We will increase K to 5 to see if "More Context" helps or hurts
 retriever = vector_db.as_retriever(search_kwargs={"k": 5}) 
-llm = ChatGroq(model_name="llama-3.1-8b-instant", groq_api_key=api_key)
+llm = ChatGroq(model_name="openai/gpt-oss-20b", groq_api_key=api_key)
 
 # THE CHALLENGE: A question that requires connecting information from different places
 complex_question = (

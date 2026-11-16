@@ -14,7 +14,7 @@ api_key = os.getenv("GROQ_API_KEY")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 vector_db = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
 retriever = vector_db.as_retriever(search_kwargs={"k": 3})
-llm = ChatGroq(model_name="llama-3.1-8b-instant", groq_api_key=api_key)
+llm = ChatGroq(model_name="openai/gpt-oss-20b", groq_api_key=api_key)
 
 # 3. THE JUDGE'S RUBRIC
 # This is the most important part of Phase 3.

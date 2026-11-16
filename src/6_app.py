@@ -51,7 +51,7 @@ def init_resources():
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     # Points to the 1,138-page database including ECSS
     vector_db = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
-    llm = ChatGroq(model_name="llama-3.1-8b-instant", groq_api_key=api_key)
+    llm = ChatGroq(model_name="openai/gpt-oss-20b", groq_api_key=api_key)
     return vector_db, llm
 
 vector_db, llm = init_resources()
